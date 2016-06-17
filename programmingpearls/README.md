@@ -1,0 +1,1 @@
+Here is i assemble solutions for the famous programming peals book (http://www.amazon.com/Programming-Pearls-2nd-Jon-Bentley/dp/0201657880) written in golang. 

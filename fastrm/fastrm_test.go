@@ -25,7 +25,8 @@ func CreateFiles(dir string, n int) {
 func TestBot(t *testing.T) {
 
 	fmt.Println("testing fastrm ...")
-	CreateFiles("test", 10000)
+	CreateFiles("tmp", 10000)
+	CreateFiles("tmp/tmp", 10000)
 	// ListFiles(dir)
 	// os.RemoveAll(dir)
 }

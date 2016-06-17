@@ -3,37 +3,20 @@ package main
 import (
 	"flag"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"os"
+	"path/filepath"
 )
 
-var dir, pattern string
+var pattern string
 
 func init() {
-	flag.StringVar(&dir, "dir", "tmp", "directory to remove all the files")
-	flag.StringVar(&pattern, "pattern", "pattern", "file pattern example log")
+	flag.StringVar(&pattern, "pattern", "tmp", "directory to remove all the files")
 	flag.Parse()
 }
 
-func askForConfirmation() bool {
-	var response string
-	_, err := fmt.Scanln(&response)
-	if err != nil {
-		log.Fatal(err)
-	}
-	if "yes" == response {
-		return true
-	} else if "no" == response {
-		return false
-	} else {
-		fmt.Println("Please type yes or no and then press enter:")
-		return askForConfirmation()
-	}
-}
-
 func main() {
-	files, err := ioutil.ReadDir(dir)
+	files, err := filepath.Glob(pattern)
 
 	if err != nil {
 		log.Fatal(err)
@@ -44,27 +27,23 @@ func main() {
 		os.Exit(0)
 	}
 
-	fmt.Printf("fastrm will delete files from %s matching %s.\n", dir, pattern)
-	fmt.Println("Please type yes or no and then press enter:")
-
-	ok := askForConfirmation()
-
-	if !ok {
-		os.Exit(0)
-	}
+	fmt.Printf("fastrm will delete %d files matching %s.\n", len(files), pattern)
 
 	for _, file := range files {
-		err = os.Remove(fmt.Sprintf("%s/%s", dir, file.Name()))
+		dir, err := os.Stat(file)
 		if err != nil {
-			log.Fatal(err)
+			if dir.IsDir() {
+				err = os.RemoveAll(file)
+			} else {
+				err = os.Remove(file)
+			}
+			if err != nil {
+				log.Fatal(err)
+			}
 		}
-		fmt.Printf("%s DELETED\n", file.Name())
+
+		fmt.Printf("%s DELETED\n", file)
 	}
 
-	// err = os.RemoveAll(dir)
-
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
 	fmt.Printf("Done!")
 }
