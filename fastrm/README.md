@@ -10,5 +10,6 @@ When using rm -R on crowded directories you probably had the following error  `/
 # How to run
 
 go build
+
 ./fastrm -pattern "/tmp/*"
 
