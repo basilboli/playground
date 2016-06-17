@@ -22,11 +22,11 @@ func CreateFiles(dir string, n int) {
 	fmt.Println("%d files have been created!", n)
 }
 
-func TestBot(t *testing.T) {
+func Test(t *testing.T) {
 
-	fmt.Println("testing fastrm ...")
+	fmt.Println("creating 20 000 tmp files in tmp and tmp/tmp ...")
 	CreateFiles("tmp", 10000)
 	CreateFiles("tmp/tmp", 10000)
-	// ListFiles(dir)
-	// os.RemoveAll(dir)
+	fmt.Println("deleting files ...")
+	Remove("tmp/*")
 }
