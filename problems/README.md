@@ -1,1 +1,1 @@
-solutions for simple java problems
+solutions for simple problems.
