@@ -1,0 +1,1 @@
+solutions for simple java problems
